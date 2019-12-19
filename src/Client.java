@@ -10,10 +10,14 @@ public class Client
 		CircularLinkedList list = fillList();
 		
 		final int MIN = 3;
+		int lastPosition = 0;
 		
 		while (list.getSize() > 3)
 		{
+			int randomNum = ThreadLocalRandom.current().nextInt(MIN, list.getSize() + 1);
+			list.deleteNode(randomNum + lastPosition);
 			
+			lastPosition = randomNum;
 		}
 	}
 	
