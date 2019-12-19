@@ -41,9 +41,23 @@ public class CircularLinkedList
 		this.size++;
 	}
 	
-	public void deleteNode(int index)
+	public void remove(int index)
 	{
-		
+		ListNode node = get(index);		
+
+		if (node == this.tail)
+		{
+			this.tail = get(index + 1);
+			this.head.setNext(this.tail);
+		}
+		else if (node == this.head)
+		{
+			this.head = get(index - 1);
+			this.head.setNext(this.tail);
+		}
+		else
+		{
+			get(index - 1).setNext(get(index + 1));
 	}
 	
 	public ListNode get(int index)
