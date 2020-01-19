@@ -8,6 +8,7 @@ public class Client
 		CircularLinkedList list = fillList();
 		int originalSize = list.getSize();
 		final int MIN = 3;
+		boolean bSpecial = false;
 		while (list.getSize() > 1)
 		{
 			int rand = (int) (Math.random() * (originalSize - MIN) + MIN);
@@ -20,9 +21,10 @@ public class Client
 			}
 			System.out.print("Giudice " + node.getValue() + "\n");
 			
-			if (node.getValue().equals("Andrew"))
+			if (node.getValue().equals("Andrew") && !bSpecial)
 			{
 				list.addNode(node.getValue(), true);
+				bSpecial = true;
 			}
 			
 			list.remove(node);
