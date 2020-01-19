@@ -10,7 +10,7 @@ public class ListNode
 	
 	public ListNode getNext()
 	{
-		return next;
+		return this.next;
 	}
 
 	public void setNext(ListNode next)
@@ -20,7 +20,7 @@ public class ListNode
 
 	public String getValue()
 	{
-		return value;
+		return this.value;
 	}
 
 	public void setValue(String value)

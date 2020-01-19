@@ -16,91 +16,89 @@ public class CircularLinkedList
 		return this.size;
 	}
 	
+	public ListNode getHead()
+	{
+		return this.head;
+	}
+	
 	public boolean isEmpty()
 	{
 		return this.size == 0;
 	}
 	
-	public void addNode(String value)
+	public void addNode(String value, boolean isSpecial)
 	{
 		ListNode node = new ListNode(value);
 		
-		if (isEmpty())
+		if (!isSpecial)
 		{
-			this.head = node;
-			this.tail = node;
-			node.setNext(this.head);
+			if (isEmpty())
+			{
+				this.head = node;
+				this.tail = node;
+				node.setNext(this.head);
+			}
+			else
+			{
+				this.tail.setNext(node);
+				this.tail = node;
+				this.tail.setNext(this.head);
+			}
 		}
 		else
 		{
-			this.tail.setNext(node);
-			this.tail = node;
+			node.setNext(this.head);
+			this.head = node;
 			this.tail.setNext(this.head);
 		}
 		
 		this.size++;
 	}
 	
-	public void remove(int index)
+	public void remove(ListNode node)
 	{
-		ListNode node = get(index);		
-
+		ListNode prevNode = null;
+		ListNode temp = this.head;
+		
+		for (int i = 0; i < this.size; i++)
+		{
+			if (temp.getNext() == node)
+				prevNode = temp;
+			else
+				temp = temp.getNext();
+		}
+		
 		if (node == this.tail)
 		{
-			this.tail = get(index + 1);
-			this.head.setNext(this.tail);
+			this.tail = prevNode;
+			this.tail.setNext(this.head);
+			this.size--;
 		}
 		else if (node == this.head)
 		{
-			this.head = get(index - 1);
-			this.head.setNext(this.tail);
+			this.head = node.getNext();
+			this.tail.setNext(this.head);
+			this.size--;
 		}
-		else
+		else if (node != this.tail && node != this.head)
 		{
-			get(index - 1).setNext(get(index + 1));
-	}
-	
-	public ListNode get(int index)
-	{
-		if (index < 0)
-			return null;
-		else if (index >= this.size)
-		{
-			index %= this.size;
-			ListNode node = this.head;
-			
-			while (index != 0)
-			{
-				node = node.getNext();
-				index--;
-			}
-			
-			return node;
-		}
-		else
-		{
-			ListNode node = this.head;
-			
-			while (index != 0)
-			{
-				node = node.getNext();
-				index--;
-			}
-			
-			return node;
+			prevNode.setNext(node.getNext());
+			this.size--;
 		}
 	}
 	
 	public String toString()
 	{
 		String str = "[";
+		ListNode node = this.head;
 		
 		for (int i = 0; i < this.size - 1; i++)
 		{
-			str += get(i).getValue() + ", ";
+			str += node.getValue() + ", ";
+			node = node.getNext();
 		}
 		
-		str += get(this.size-1).getValue() + "]";
+		str += this.tail.getValue() + "]";
 		
 		return str;
 	}

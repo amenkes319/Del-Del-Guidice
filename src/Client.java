@@ -1,24 +1,36 @@
 import java.io.File;
 import java.util.Scanner;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class Client
 {
 	public static void main(String[] args)
 	{
-		System.out.println("abc".compareTo("a"));
 		CircularLinkedList list = fillList();
-		
+		int originalSize = list.getSize();
 		final int MIN = 3;
-		int lastPosition = 0;
-		
-		while (list.getSize() > 3)
+		while (list.getSize() > 1)
 		{
-			int randomNum = ThreadLocalRandom.current().nextInt(MIN, list.getSize() + 1);
-			list.deleteNode(randomNum + lastPosition);
+			int rand = (int) (Math.random() * (originalSize - MIN) + MIN);
+			ListNode node = list.getHead();
 			
-			lastPosition = randomNum;
+			for (int i = 0; i < rand - 1; i++)
+			{
+				System.out.print("Del " + node.getValue() + ", ");
+				node = node.getNext();
+			}
+			System.out.print("Giudice " + node.getValue() + "\n");
+			
+			if (node.getValue().equals("Andrew"))
+			{
+				list.addNode(node.getValue(), true);
+			}
+			
+			list.remove(node);
+			
+			System.out.println(list + "\n");
 		}
+		
+		System.out.println(list.getHead().getValue() + " is your winnner!");
 	}
 	
 	private static CircularLinkedList fillList()
@@ -30,7 +42,7 @@ public class Client
 			Scanner scanner = new Scanner(new File("src\\names.txt"));
 			
 			while (scanner.hasNextLine())
-				list.addNode(scanner.nextLine());
+				list.addNode(scanner.nextLine(), false);
 			
 			scanner.close();
 		}
